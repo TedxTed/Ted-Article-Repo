@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const MenuPosts = ({ withImage }) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.items}>
       <Link href="/" className={styles.item}>
         {withImage && (
           <div className={styles.imageContainer}>

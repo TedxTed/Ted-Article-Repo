@@ -1,23 +1,22 @@
 "use client";
 
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
-const getFormLocalStorage = () => {
+const getFromLocalStorage = () => {
   if (typeof window !== "undefined") {
     const value = localStorage.getItem("theme");
-
     return value || "light";
   }
 };
 
 export const ThemeContextProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    return getFormLocalStorage();
+    return getFromLocalStorage();
   });
 
-  const toogle = () => {
+  const toggle = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
@@ -26,7 +25,7 @@ export const ThemeContextProvider = ({ children }) => {
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toogle }}>
+    <ThemeContext.Provider value={{ theme, toggle }}>
       {children}
     </ThemeContext.Provider>
   );
