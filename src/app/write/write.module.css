@@ -14,8 +14,13 @@
 .editor {
   display: flex;
   gap: 20px;
-  height: 700px;
+  max-height: 700px;
+  overflow-y: auto;
   position: relative;
+  width: auto; /* 自適應寬度 */
+  min-width: 100%; /* 最小寬度 */
+  max-width: 1200px; /* 最大寬度，可以根據需要調整 */
+  margin: auto; /* 水平置中 */
 }
 
 .button,
