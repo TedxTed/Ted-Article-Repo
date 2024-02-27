@@ -37,5 +37,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Prsima
 
 ```
+npx prisma generate 
 npx prisma studio
 ```
