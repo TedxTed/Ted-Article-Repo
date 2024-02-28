@@ -1,29 +1,46 @@
 "use client";
 import styles from "./editorBlock.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Editor from "@/editor/editor";
 import EditorTextParser from "../editorTextParser/EditorTextParser";
-import exampleData from "./data";
 
-export default function EditorBlock({ editMode, slug }) {
-  const [data, setData] = useState(exampleData);
-  const onReady = () => {
-    let editable_elements = document.querySelectorAll("[contenteditable=true]");
-    editable_elements.forEach((el) => el.removeAttribute("contenteditable"));
+export default function PostEditorBlock({
+  editMode,
+  postId,
+  slug,
+  editorContent,
+}) {
+  const [data, setData] = useState(editorContent);
 
-    let icon_settings = document.querySelectorAll(".ce-toolbar__settings-btn");
-    icon_settings.forEach((el) => el.remove());
-  };
+  useEffect(() => {
+    setData(editorContent);
+  }, [editorContent]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: postId,
+          data,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Failed");
+      }
+    };
+
+    fetchData();
+  }, [data, postId, slug]);
+
   return (
     <div className={styles.container}>
       <div className={styles.app_content}>
         {editMode ? (
-          <Editor
-            holder="description"
-            data={data}
-            setData={setData}
-            slug={slug}
-          />
+          <Editor holder="description" data={data} setData={setData} />
         ) : (
           <EditorTextParser data={data} />
         )}

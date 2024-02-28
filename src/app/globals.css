@@ -84,3 +84,8 @@ a {
 .quill > .ql-container > .ql-editor.ql-blank::before{
   color: #b3b3b1;
 }
+
+
+.ce-toolbar{
+  z-index: 1000;
+}

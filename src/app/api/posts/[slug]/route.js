@@ -22,18 +22,21 @@ export const GET = async (req, { params }) => {
 };
 
 // GET SINGLE POST
-export const POST = async (req, { params }) => {
-  console.log(params);
+export const PUT = async (req, { params }) => {
   const { slug } = params;
 
   try {
-    // const post = await prisma.post.update({
-    //   where: { slug },
-    //   data: { views: { increment: 1 } },
-    //   include: { user: true },
-    // });
+    // 解析請求的 body
+    const { id, data } = await req.json();
+    console.log("Request body:", { id, data });
 
-    return new NextResponse(JSON.stringify({}, { status: 200 }));
+    // 使用 Prisma 更新 Post
+    const updatedPost = await prisma.post.update({
+      where: { id },
+      data: { content: data },
+    });
+
+    return new NextResponse(JSON.stringify(updatedPost, { status: 200 }));
   } catch (err) {
     console.log(err);
     return new NextResponse(

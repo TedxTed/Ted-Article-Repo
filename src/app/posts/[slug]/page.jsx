@@ -2,7 +2,7 @@ import Menu from "@/components/Menu/Menu";
 import styles from "./singlePage.module.css";
 import Image from "next/image";
 import Comments from "@/components/comments/Comments";
-import EditorBlock from "../../../components/editorBlock/EditorBlock";
+import PostEditorBlock from "@/components/editorBlock/editorBlock";
 
 const getData = async (slug) => {
   const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
@@ -20,6 +20,7 @@ const SinglePage = async ({ params }) => {
   const { slug } = params;
 
   const data = await getData(slug);
+  console.log({ data });
 
   return (
     <div className={styles.container}>
@@ -51,14 +52,16 @@ const SinglePage = async ({ params }) => {
       </div>
       <div className={styles.content}>
         <div className={styles.post}>
-          <div
+          {/* <div
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data?.desc }}
-          />
-          <EditorBlock
+          /> */}
+          <PostEditorBlock
             editMode={true}
             className={styles.description}
             slug={slug}
+            postId={data.id}
+            editorContent={data.content}
           />
           <div className={styles.comment}>
             <Comments postSlug={slug} />

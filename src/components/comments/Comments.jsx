@@ -28,6 +28,8 @@ const Comments = ({ postSlug }) => {
     fetcher
   );
 
+  console.log({ data });
+
   const [desc, setDesc] = useState("");
 
   const handleSubmit = async () => {
@@ -59,7 +61,7 @@ const Comments = ({ postSlug }) => {
         {isLoading
           ? "loading"
           : data?.map((item) => (
-              <div className={styles.comment} key={item._id}>
+              <div className={styles.comment} key={item.id}>
                 <div className={styles.user}>
                   {item?.user?.image && (
                     <Image

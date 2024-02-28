@@ -14,9 +14,12 @@
 .editor {
   display: flex;
   gap: 20px;
-  height: 700px;
+  height: 700px; /* Fixed height */
   position: relative;
-}
+  width: 720px;
+  overflow: auto; /* Scrollable overflow */
+  border-left: 1px solid rgb(206, 204, 204);
+} 
 
 .button,
 .addButton {
@@ -39,14 +42,12 @@
   display: flex;
   gap: 20px;
   background-color: var(--bg);
-  position: absolute;
   z-index: 999;
   width: 100%;
-  left: 50px;
 }
 
 .input{
-  padding: 50px;
+  padding: 50px 50px 50px 0px;
   font-size: 64px;
   border: none;
   outline: none;
@@ -59,7 +60,9 @@
 }
 
 .textArea {
+  margin-left: 35px;
   width: 100%;
+  z-index: 1000;
 }
 
 .publish{
@@ -72,4 +75,25 @@
   color: white;
   cursor: pointer;
   border-radius: 20px;
+}
+
+.upload{
+  display: flex;
+  gap: 50px;
+  margin: 10px;
+  align-items: center;
+}
+
+.button {
+  width: 100px;
+  border: none;
+  padding: 16px;
+  background-color: crimson;
+  color: white;
+  cursor: pointer;
+}
+
+.button:disabled{
+  background-color: rgba(220, 20, 60, 0.473);
+  cursor: not-allowed;
 }

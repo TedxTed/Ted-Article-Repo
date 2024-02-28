@@ -7,20 +7,7 @@ import { EDITOR_JS_TOOLS } from "./tool";
 // create editor instance
 import { createReactEditorJS } from "react-editor-js";
 
-const updateData = async ({ slug, data }) => {
-  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
-    cache: "no-store",
-    data: data,
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed");
-  }
-
-  return res.json();
-};
-
-export default function Editor({ data, setData, isEditMode, slug }) {
+export default function Editor({ data, setData, isEditMode }) {
   const editorCore = useRef(null);
   const ReactEditorJS = createReactEditorJS({ readOnly: true });
 
@@ -49,9 +36,6 @@ export default function Editor({ data, setData, isEditMode, slug }) {
   const handleSave = useCallback(async () => {
     // retrieve data inserted
     const savedData = await editorCore.current.save();
-    updateData(slug, savedData);
-    console.log(savedData);
-    // save data
     setData(savedData);
   }, [setData]);
 
@@ -63,6 +47,7 @@ export default function Editor({ data, setData, isEditMode, slug }) {
         tools={EDITOR_JS_TOOLS}
         onChange={handleSave}
         defaultValue={data}
+        placeholder={"Let`s write an awesome story!"}
       />
     </div>
   );
