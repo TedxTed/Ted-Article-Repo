@@ -20,3 +20,24 @@ export const GET = async (req, { params }) => {
     );
   }
 };
+
+// GET SINGLE POST
+export const POST = async (req, { params }) => {
+  console.log(params);
+  const { slug } = params;
+
+  try {
+    // const post = await prisma.post.update({
+    //   where: { slug },
+    //   data: { views: { increment: 1 } },
+    //   include: { user: true },
+    // });
+
+    return new NextResponse(JSON.stringify({}, { status: 200 }));
+  } catch (err) {
+    console.log(err);
+    return new NextResponse(
+      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+    );
+  }
+};

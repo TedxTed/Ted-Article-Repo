@@ -1,0 +1,69 @@
+import React, { useRef, useCallback } from "react";
+import axios from "axios";
+
+// import tools for editor config
+import { EDITOR_JS_TOOLS } from "./tool";
+
+// create editor instance
+import { createReactEditorJS } from "react-editor-js";
+
+const updateData = async ({ slug, data }) => {
+  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+    cache: "no-store",
+    data: data,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed");
+  }
+
+  return res.json();
+};
+
+export default function Editor({ data, setData, isEditMode, slug }) {
+  const editorCore = useRef(null);
+  const ReactEditorJS = createReactEditorJS({ readOnly: true });
+
+  const onReady = () => {
+    if (isEditMode) {
+      let editable_elements = document.querySelectorAll(
+        "[contenteditable=true]"
+      );
+      editable_elements.forEach((el) => el.removeAttribute("contenteditable"));
+
+      let icon_settings = document.querySelectorAll(".ce-toolbar");
+      icon_settings.forEach((el) => el.remove());
+    }
+  };
+
+  const handleInitialize = useCallback((instance) => {
+    // await instance._editorJS.isReady;
+    instance._editorJS.isReady
+      .then(() => {
+        // set reference to editor
+        editorCore.current = instance;
+      })
+      .catch((err) => console.log("An error occured", err));
+  }, []);
+
+  const handleSave = useCallback(async () => {
+    // retrieve data inserted
+    const savedData = await editorCore.current.save();
+    updateData(slug, savedData);
+    console.log(savedData);
+    // save data
+    setData(savedData);
+  }, [setData]);
+
+  return (
+    <div className="editor-container">
+      <ReactEditorJS
+        onReady={onReady}
+        onInitialize={handleInitialize}
+        tools={EDITOR_JS_TOOLS}
+        onChange={handleSave}
+        defaultValue={data}
+      />
+    </div>
+  );
+}

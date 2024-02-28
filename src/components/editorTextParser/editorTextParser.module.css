@@ -1,0 +1,4 @@
+.text_container > *,
+.editor-container > * {
+	text-align: left;
+}
