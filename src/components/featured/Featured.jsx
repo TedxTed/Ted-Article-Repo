@@ -2,28 +2,43 @@ import React from "react";
 import styles from "./featured.module.css";
 import Image from "next/image";
 
-const Featured = () => {
+const getData = async (page, cat) => {
+  const res = await fetch(`http://localhost:3000/api/posts/main`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch");
+  }
+
+  return res.json();
+};
+
+const Featured = async () => {
+  const posts = await getData();
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        <b>Hey, lama dev here!</b> Discover my stories and creative ideas.
+        <b>Hey, PIKA RAILS here!</b> Discover my article here!.
       </h1>
       <div className={styles.post}>
-        <div className={styles.imgContainer}>
-          <Image src="/p1.jpeg" alt="" fill className={styles.image} />
-        </div>
-        <div className={styles.textContainer}>
-          <h1 className={styles.postTitle}>
-            Lorem ipsum dolor sit amet alim consectetur adipisicing elit.
-          </h1>
-          <p className={styles.postDesc}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Cupiditate, quam nisi magni ea laborum inventore voluptatum
-            laudantium repellat ducimus unde aspernatur fuga. Quo, accusantium
-            quisquam! Harum unde sit culpa debitis.
-          </p>
-          <button className={styles.button}>Read More</button>
-        </div>
+        {posts?.map((post) => (
+          <>
+            {post.img && (
+              <div className={styles.imgContainer}>
+                <Image src={post.img} alt="" fill className={styles.image} />
+              </div>
+            )}
+            <div className={styles.textContainer}>
+              <h1 className={styles.postTitle}>{post.title}</h1>
+              <p className={styles.postDesc}>{post.desc}</p>
+              <a href={`posts/${post.slug}`}>
+                <button className={styles.button}>Read More</button>
+              </a>
+            </div>
+          </>
+        ))}
       </div>
     </div>
   );

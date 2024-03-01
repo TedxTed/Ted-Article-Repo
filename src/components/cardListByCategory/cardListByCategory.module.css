@@ -1,0 +1,8 @@
+.container{
+  flex:5;
+  color: var(--textColor);
+}
+
+.title{
+  margin: 50px 0px;
+}

@@ -1,7 +1,7 @@
-// useCategoryData.js
+// useCategoryClass.js
 import { useEffect, useState } from "react";
 
-const useCategoryData = () => {
+const useCategoryClass = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -29,4 +29,4 @@ const useCategoryData = () => {
   return { data, error };
 };
 
-export default useCategoryData;
+export default useCategoryClass;

@@ -18,7 +18,7 @@ import CreateContentEditorBlock from "@/components/editorBlock/CreateContentEdit
 import { Select, Input, Button, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { uuid } from "uuidv4";
-import useCategoryData from "@/components/categorySelection/useCategoryData";
+import useCategoryClass from "@/hook/useCategoryClass";
 
 const WritePage = () => {
   const { status } = useSession();
@@ -30,7 +30,10 @@ const WritePage = () => {
   const [catSlug, setCatSlug] = useState("");
   const [slug, setSlug] = useState(uuid().split("-")[0]);
   const [editorContent, setEditorContent] = useState(null);
-  const { data: categories, error } = useCategoryData();
+  const [mainFeature, setMainFeature] = useState(false);
+  const [textAreaInput, setTextAreaInput] = useState("");
+  const { data: categories, error } = useCategoryClass();
+  const { TextArea } = Input;
 
   const uploadProps = {
     name: "file",
@@ -143,6 +146,8 @@ const WritePage = () => {
         slug,
         catSlug: catSlug || "style",
         content: editorContent,
+        mainFeature: mainFeature,
+        desc: textAreaInput,
       }),
     });
 
@@ -184,6 +189,27 @@ const WritePage = () => {
             ))}
           </Select>
         )}
+      </div>
+
+      <div className={styles.slug}>
+        <span>desc :</span>
+        <TextArea rows={4} onChange={(e) => setTextAreaInput(e.target.value)} />
+      </div>
+
+      <div className={styles.category}>
+        <span>主頁文章:</span>
+        <Select
+          defaultValue={false}
+          style={{ width: 300 }}
+          onChange={(value) => setMainFeature(value)}
+        >
+          <Select.Option key={"true"} value={true}>
+            True
+          </Select.Option>
+          <Select.Option key={"false"} value={false}>
+            false
+          </Select.Option>
+        </Select>
       </div>
 
       <div className={styles.upload}>

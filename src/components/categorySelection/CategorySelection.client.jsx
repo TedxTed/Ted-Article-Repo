@@ -1,8 +1,8 @@
 import { Select } from "antd";
-import useCategoryData from "./useCategoryData";
+import useCategoryClass from "../../hook/useCategoryClass";
 
 export default function CategorySelectionClient({ setData }) {
-  const { data: categories, error } = useCategoryData();
+  const { data: categories, error } = useCategoryClass();
 
   if (error) {
     return <div>Error: {error.message}</div>;

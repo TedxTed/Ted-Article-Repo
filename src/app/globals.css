@@ -49,6 +49,11 @@ a {
   padding-right: 80px;
 }
 
+.ant-tabs-nav-list {
+  color: var(--textColor)
+}
+
+
 @media screen and (max-width: 1536px) {
   .wrapper {
     max-width: 1366px;
@@ -88,4 +93,14 @@ a {
 
 .ce-toolbar{
   z-index: 1000;
+}
+
+.dark .ant-tabs-tab,
+.dark .ant-tabs-tab:hover {
+  color: var(--textColor);
+}
+
+.light .ant-tabs-tab,
+.light .ant-tabs-tab:hover {
+  color: var(--textColor);
 }

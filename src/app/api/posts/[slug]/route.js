@@ -21,16 +21,13 @@ export const GET = async (req, { params }) => {
   }
 };
 
-// GET SINGLE POST
 export const PUT = async (req, { params }) => {
   const { slug } = params;
 
   try {
-    // 解析請求的 body
     const { id, data } = await req.json();
     console.log("Request body:", { id, data });
 
-    // 使用 Prisma 更新 Post
     const updatedPost = await prisma.post.update({
       where: { id },
       data: { content: data },
