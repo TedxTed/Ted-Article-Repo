@@ -46,7 +46,7 @@
   width: 100%;
 }
 
-.input{
+.inputTitle{
   padding: 50px 50px 50px 0px;
   font-size: 64px;
   border: none;
@@ -55,9 +55,26 @@
   color: var(--textColor);
 }
 
-.input::placeholder{
+
+.inputTitle::placeholder{
   color: #b3b3b1;
 }
+
+
+.slug, .category, .upload {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 改为flex-start以靠左对齐 */
+  gap: 10px; /* 根据实际情况调整间隔 */
+  margin-bottom: 10px;
+}
+
+.slug span, .category span, .upload p {
+  min-width: 80px;
+  text-align: right;
+}
+
+
 
 .textArea {
   margin-left: 35px;
@@ -77,12 +94,7 @@
   border-radius: 20px;
 }
 
-.upload{
-  display: flex;
-  gap: 50px;
-  margin: 10px;
-  align-items: center;
-}
+
 
 .button {
   width: 100px;

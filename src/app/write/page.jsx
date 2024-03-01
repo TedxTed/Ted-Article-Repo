@@ -17,18 +17,20 @@ import ReactQuill from "react-quill";
 import CreateContentEditorBlock from "@/components/editorBlock/CreateContentEditorBlock";
 import { Select, Input, Button, message, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { uuid } from "uuidv4";
+import useCategoryData from "@/components/categorySelection/useCategoryData";
 
 const WritePage = () => {
   const { status } = useSession();
   const router = useRouter();
-
-  const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
   const [value, setValue] = useState("");
   const [title, setTitle] = useState(null);
   const [catSlug, setCatSlug] = useState("");
+  const [slug, setSlug] = useState(uuid().split("-")[0]);
   const [editorContent, setEditorContent] = useState(null);
+  const { data: categories, error } = useCategoryData();
 
   const uploadProps = {
     name: "file",
@@ -123,22 +125,22 @@ const WritePage = () => {
     router.push("/");
   }
 
-  const slugify = (str) =>
-    str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-
   const handleSubmit = async () => {
+    console.log({
+      title,
+      desc: value,
+      img: media,
+      slug,
+      catSlug: catSlug || "style",
+      content: editorContent,
+    });
     const res = await fetch("http://localhost:3000/api/posts", {
       method: "POST",
       body: JSON.stringify({
         title,
         desc: value,
         img: media,
-        slug: slugify(title),
+        slug,
         catSlug: catSlug || "style",
         content: editorContent,
       }),
@@ -155,21 +157,35 @@ const WritePage = () => {
       <input
         type="text"
         placeholder="Title"
-        className={styles.input}
+        className={styles.inputTitle}
         onChange={(e) => setTitle(e.target.value)}
       />
-      <Select
-        defaultValue="style"
-        onChange={(e) => setCatSlug(e.target.value)}
-        style={{ width: 300 }} // Adjust the width as needed
-      >
-        <Option value="style">style</Option>
-        <Option value="fashion">fashion</Option>
-        <Option value="food">food</Option>
-        <Option value="culture">culture</Option>
-        <Option value="travel">travel</Option>
-        <Option value="coding">coding</Option>
-      </Select>
+      <div className={styles.slug}>
+        <span>slug: </span>
+        <Input
+          placeholder="Basic usage"
+          defaultValue={uuid().split("-")[0]}
+          onChange={(e) => setSlug(e.target.value)}
+        />
+      </div>
+
+      <div className={styles.category}>
+        <span>category:</span>
+        {categories && (
+          <Select
+            defaultValue="style"
+            style={{ width: 300 }}
+            onChange={(value) => setCatSlug(value)}
+          >
+            {categories?.map((item) => (
+              <Select.Option key={item.title} value={item.title}>
+                {item.title}
+              </Select.Option>
+            ))}
+          </Select>
+        )}
+      </div>
+
       <div className={styles.upload}>
         <p>封面上傳 : </p>
         <Upload {...uploadProps}>

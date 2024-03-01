@@ -51,7 +51,8 @@
     "react-dom": "18.2.0",
     "react-editor-js": "^2.1.0",
     "react-quill": "^2.0.0",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "prisma": "^5.10.2"
