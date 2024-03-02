@@ -1,7 +1,7 @@
 // useCategoryClass.js
 import { useEffect, useState } from "react";
 
-const useCategoryData = ({ categoryClass }) => {
+const useCategoryClass = ({ categoryClass }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 

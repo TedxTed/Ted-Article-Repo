@@ -7,12 +7,13 @@ import { EDITOR_JS_TOOLS } from "./tool";
 // create editor instance
 import { createReactEditorJS } from "react-editor-js";
 
-export default function Editor({ data, setData, isEditMode }) {
+export default function Editor({ data, setData, editMode }) {
+  console.log({ data });
   const editorCore = useRef(null);
   const ReactEditorJS = createReactEditorJS({ readOnly: true });
 
   const onReady = () => {
-    if (isEditMode) {
+    if (!editMode) {
       let editable_elements = document.querySelectorAll(
         "[contenteditable=true]"
       );
@@ -36,7 +37,9 @@ export default function Editor({ data, setData, isEditMode }) {
   const handleSave = useCallback(async () => {
     // retrieve data inserted
     const savedData = await editorCore.current.save();
-    setData(savedData);
+    if (setData) {
+      setData(savedData);
+    }
   }, [setData]);
 
   return (

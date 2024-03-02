@@ -11,23 +11,30 @@ import {
 } from "firebase/storage";
 import { message } from "antd";
 import { uuid } from "uuidv4";
-import styles from "./writePage.module.css";
+import styles from "./updatePage.module.css";
 import { app } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import ArticleForm from "@/components/articleForm/ArticleForm";
+import usePostData from "@/hook/usePostData";
 
-const WritePage = () => {
+const UpdatePost = ({ params }) => {
+  const { slug } = params;
+  console.log(slug);
+  const { data: postDataFromServer } = usePostData({ slug });
+
+  console.log({ postDataFromServer });
+
   const { status } = useSession();
   const router = useRouter();
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState(uuid().split("-")[0]);
-  const [catSlug, setCatSlug] = useState("");
-  const [textAreaInput, setTextAreaInput] = useState("");
   const [editorContent, setEditorContent] = useState(null);
-  const [mainFeature, setMainFeature] = useState(false);
   const { data: categories, error } = useCategoryClass();
+
+  useEffect(() => {
+    setEditorContent(postDataFromServer?.content);
+    setMedia(postDataFromServer?.img);
+  }, [JSON.stringify(postDataFromServer)]);
 
   useEffect(() => {
     if (file) {
@@ -73,6 +80,7 @@ const WritePage = () => {
 
   const handleSubmit = async (values) => {
     const postData = {
+      id: postDataFromServer?.id,
       title: values.title,
       slug: values.slug,
       catSlug: values.catSlug,
@@ -84,7 +92,7 @@ const WritePage = () => {
 
     console.log(postData);
 
-    const res = await fetch("http://localhost:3000/api/posts", {
+    const res = await fetch(`http://localhost:3000/api/posts/update`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -109,24 +117,27 @@ const WritePage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.container}>
-        <ArticleForm
-          categories={categories}
-          initialValues={{
-            title: title,
-            slug: slug,
-            catSlug: catSlug,
-            desc: textAreaInput,
-            mainFeature: mainFeature,
-            media: media,
-            content: editorContent,
-          }}
-          onSubmit={handleSubmit}
-          uploadProps={uploadProps}
-          setEditorContent={setEditorContent}
-        />
+        {postDataFromServer && (
+          <ArticleForm
+            categories={categories}
+            initialValues={{
+              id: postDataFromServer?.id,
+              title: postDataFromServer?.title || "",
+              slug: postDataFromServer?.slug || uuid().split("-")[0],
+              catSlug: postDataFromServer?.catSlug || "",
+              desc: postDataFromServer?.desc || "",
+              mainFeature: postDataFromServer?.mainFeature || false,
+              media: postDataFromServer?.img || "",
+              content: postDataFromServer?.content || "",
+            }}
+            onSubmit={handleSubmit}
+            uploadProps={uploadProps}
+            setEditorContent={setEditorContent}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default WritePage;
+export default UpdatePost;

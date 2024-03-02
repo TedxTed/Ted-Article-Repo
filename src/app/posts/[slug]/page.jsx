@@ -1,37 +1,40 @@
+"use client";
 import Menu from "@/components/Menu/Menu";
 import styles from "./singlePage.module.css";
 import Image from "next/image";
 import Comments from "@/components/comments/Comments";
 import PostEditorBlock from "@/components/editorBlock/editorBlock";
+import { Button, Flex } from "antd";
+import usePostData from "@/hook/usePostData";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const getData = async (slug) => {
-  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed");
-  }
-
-  return res.json();
-};
-
-const SinglePage = async ({ params }) => {
+const SinglePage = ({ params }) => {
   const { slug } = params;
+  console.log(slug);
+  const { data: postDataFromServer } = usePostData({ slug });
+  const session = useSession();
+  console.log(session.data?.user);
+  console.log(postDataFromServer?.content);
+  const router = useRouter();
 
-  const data = await getData(slug);
-  console.log({ data });
+  const handleEdit = () => {
+    console.log("Edit Post Clicked");
+    if (postDataFromServer) {
+      router.push(`/write/${postDataFromServer.slug}`);
+    }
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.textContainer}>
-          <h1 className={styles.title}>{data?.title}</h1>
+          <h1 className={styles.title}>{postDataFromServer?.title}</h1>
           <div className={styles.user}>
-            {data?.user?.image && (
+            {postDataFromServer?.user?.image && (
               <div className={styles.userImageContainer}>
                 <Image
-                  src={data.user.image}
+                  src={postDataFromServer.user.image}
                   alt=""
                   fill
                   className={styles.avatar}
@@ -39,14 +42,28 @@ const SinglePage = async ({ params }) => {
               </div>
             )}
             <div className={styles.userTextContainer}>
-              <span className={styles.username}>{data?.user.name}</span>
+              <span className={styles.username}>
+                {postDataFromServer?.user.name}
+              </span>
               <span className={styles.date}>01.01.2024</span>
             </div>
           </div>
+          {session.data?.user.email === postDataFromServer?.user.email && (
+            <div className={styles.updateButton}>
+              <Button type="primary" onClick={handleEdit}>
+                Edit Post
+              </Button>
+            </div>
+          )}
         </div>
-        {data?.img && (
+        {postDataFromServer?.img && (
           <div className={styles.imageContainer}>
-            <Image src={data.img} alt="" fill className={styles.image} />
+            <Image
+              src={postDataFromServer.img}
+              alt=""
+              fill
+              className={styles.image}
+            />
           </div>
         )}
       </div>
@@ -54,15 +71,16 @@ const SinglePage = async ({ params }) => {
         <div className={styles.post}>
           {/* <div
             className={styles.description}
-            dangerouslySetInnerHTML={{ __html: data?.desc }}
+            dangerouslySetInnerHTML={{ __html: postDataFromServer?.desc }}
           /> */}
-          <PostEditorBlock
-            editMode={true}
-            className={styles.description}
-            slug={slug}
-            postId={data.id}
-            editorContent={data.content}
-          />
+          {postDataFromServer?.content && (
+            <PostEditorBlock
+              editMode={false}
+              className={styles.description}
+              data={postDataFromServer.content}
+            />
+          )}
+
           <div className={styles.comment}>
             <Comments postSlug={slug} />
           </div>
