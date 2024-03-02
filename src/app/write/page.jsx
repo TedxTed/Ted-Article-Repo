@@ -15,7 +15,23 @@ import {
 import { app } from "@/utils/firebase";
 import ReactQuill from "react-quill";
 import CreateContentEditorBlock from "@/components/editorBlock/CreateContentEditorBlock";
-import { Select, Input, Button, message, Upload } from "antd";
+import {
+  Select,
+  Input,
+  Button,
+  message,
+  Cascader,
+  Checkbox,
+  ColorPicker,
+  DatePicker,
+  Form,
+  InputNumber,
+  Radio,
+  Slider,
+  Switch,
+  TreeSelect,
+  Upload,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { uuid } from "uuidv4";
 import useCategoryClass from "@/hook/useCategoryClass";
@@ -159,81 +175,83 @@ const WritePage = () => {
 
   return (
     <div className={styles.container}>
-      <input
-        type="text"
-        placeholder="Title"
-        className={styles.inputTitle}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <div className={styles.slug}>
-        <span>slug: </span>
-        <Input
-          placeholder="Basic usage"
-          defaultValue={uuid().split("-")[0]}
-          onChange={(e) => setSlug(e.target.value)}
-        />
-      </div>
-
-      <div className={styles.category}>
-        <span>category:</span>
-        {categories && (
-          <Select
-            defaultValue="style"
-            style={{ width: 300 }}
-            onChange={(value) => setCatSlug(value)}
-          >
-            {categories?.map((item) => (
-              <Select.Option key={item.title} value={item.title}>
-                {item.title}
-              </Select.Option>
-            ))}
-          </Select>
-        )}
-      </div>
-
-      <div className={styles.slug}>
-        <span>desc :</span>
-        <TextArea rows={4} onChange={(e) => setTextAreaInput(e.target.value)} />
-      </div>
-
-      <div className={styles.category}>
-        <span>主頁文章:</span>
-        <Select
-          defaultValue={false}
-          style={{ width: 300 }}
-          onChange={(value) => setMainFeature(value)}
+      <Form onFinish={handleSubmit}>
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[{ required: true, message: "Please input the title!" }]}
         >
-          <Select.Option key={"true"} value={true}>
-            True
-          </Select.Option>
-          <Select.Option key={"false"} value={false}>
-            false
-          </Select.Option>
-        </Select>
-      </div>
+          <Input
+            placeholder="Title"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Form.Item>
 
-      <div className={styles.upload}>
-        <p>封面上傳 : </p>
-        <Upload {...uploadProps}>
-          <Button icon={<UploadOutlined />}>Upload</Button>
-        </Upload>
-      </div>
+        <Form.Item label="Slug" name="slug">
+          <Input
+            placeholder="Basic usage"
+            defaultValue={uuid().split("-")[0]}
+            onChange={(e) => setSlug(e.target.value)}
+          />
+        </Form.Item>
 
-      <div className={styles.editor}>
-        <div className={styles.textArea}>
+        <Form.Item label="Category" name="category">
+          {categories && (
+            <Select
+              defaultValue="style"
+              style={{ width: 300 }}
+              onChange={(value) => setCatSlug(value)}
+            >
+              {categories?.map((item) => (
+                <Select.Option key={item.title} value={item.title}>
+                  {item.title}
+                </Select.Option>
+              ))}
+            </Select>
+          )}
+        </Form.Item>
+
+        <Form.Item label="Description" name="description">
+          <TextArea
+            rows={4}
+            onChange={(e) => setTextAreaInput(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item label="Main Feature" name="mainFeature">
+          <Select
+            defaultValue={false}
+            style={{ width: 300 }}
+            onChange={(value) => setMainFeature(value)}
+          >
+            <Select.Option key={"true"} value={true}>
+              True
+            </Select.Option>
+            <Select.Option key={"false"} value={false}>
+              false
+            </Select.Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item label="Cover Upload" name="coverUpload">
+          <Upload {...uploadProps}>
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
+        </Form.Item>
+
+        <Form.Item label="Content Editor" name="contentEditor">
           <CreateContentEditorBlock
             data={editorContent}
             setData={setEditorContent}
           />
-        </div>
-      </div>
-      <button
-        disabled={!title} // The button is disabled if the title is empty or undefined
-        className={`${styles.publish} ${styles.button}`}
-        onClick={handleSubmit}
-      >
-        Publish
-      </button>
+        </Form.Item>
+
+        <Form.Item>
+          <Button type="primary" htmlType="submit" disabled={!title}>
+            Publish
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
