@@ -3,6 +3,7 @@ import Featured from "@/components/featured/Featured";
 import CategoryList from "@/components/categoryList/CategoryList";
 import CardListByCategory from "@/components/cardListByCategory/CardListByCategory";
 import Menu from "@/components/Menu/Menu";
+import IntroCard from "@/components/introCard/IntroCard";
 
 export default function Home({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
@@ -12,7 +13,9 @@ export default function Home({ searchParams }) {
       <Featured />
       <div className={styles.content}>
         <CardListByCategory page={page} />
-        <Menu />
+        <div className={styles.introCard}>
+          <IntroCard />
+        </div>
       </div>
     </div>
   );

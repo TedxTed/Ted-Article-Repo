@@ -20,7 +20,7 @@ const Featured = async () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        <b>Hey, PIKA RAILS here!</b> Discover my article here!.
+        <b>Hey, PIKA RAILS here!</b> Uncover the stories behind my code.
       </h1>
       <div className={styles.post}>
         {posts?.map((post) => (

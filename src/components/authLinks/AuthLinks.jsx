@@ -30,7 +30,7 @@ const AuthLinks = () => {
       {open && (
         <div className={styles.responsiveMenu}>
           <Link href="/">Home</Link>
-          <Link href="/">About</Link>
+          <Link href="/about">About</Link>
           {status === "noauthenticated" ? (
             <Link href="/login">Login</Link>
           ) : (

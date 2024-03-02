@@ -2,3 +2,17 @@
   display: flex;
   gap: 50px;
 }
+
+.floatingButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .introCard {
+    display: none;
+  }
+}
