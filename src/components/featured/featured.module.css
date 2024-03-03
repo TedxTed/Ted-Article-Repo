@@ -70,6 +70,10 @@
     font-size: 64px;
   }
 
+  .title .highlight {
+    font-size: 64px;
+  }
+
   .imgContainer {
     display: none;
   }
@@ -79,10 +83,18 @@
   .title {
     font-size: 48px;
   }
+
+  .title .highlight {
+    font-size: 48px;
+  }
 }
 
 @media screen and (max-width: 640px) {
   .title {
     font-size: 36px;
   }
+  .title .highlight {
+    font-size: 36px;
+  }
+
 }

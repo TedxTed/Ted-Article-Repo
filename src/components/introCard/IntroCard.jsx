@@ -8,6 +8,7 @@ import {
   SettingOutlined,
   MailOutlined,
   CopyOutlined,
+  GithubFilled,
 } from "@ant-design/icons";
 
 const IntroCard = () => {
@@ -56,6 +57,9 @@ const IntroCard = () => {
           >
             <MailOutlined key="setting" />
           </Popover>,
+          <a href="https://github.com/TedxTed">
+            <GithubFilled />
+          </a>,
         ]}
       >
         <Typography.Title level={3}>作者： 踢一滴</Typography.Title>

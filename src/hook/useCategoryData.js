@@ -1,14 +1,16 @@
 // useCategoryClass.js
 import { useEffect, useState } from "react";
 
-const useCategoryClass = ({ categoryClass }) => {
+const useCategoryData = ({ categoryClass }) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getData = async (page, cat) => {
       const res = await fetch(
-        `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/posts?page=${page}&cat=${
+          cat || ""
+        }`,
         {
           cache: "no-store",
         }

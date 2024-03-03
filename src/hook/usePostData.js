@@ -10,9 +10,12 @@ const usePostData = ({ slug }) => {
     const fetchData = async (slug) => {
       setLoading(true);
       try {
-        const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
-          cache: "no-store",
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/posts/${slug}`,
+          {
+            cache: "no-store",
+          }
+        );
 
         if (!res.ok) {
           throw new Error("Failed to fetch post data");

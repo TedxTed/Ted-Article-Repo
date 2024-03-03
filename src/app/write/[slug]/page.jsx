@@ -92,13 +92,16 @@ const UpdatePost = ({ params }) => {
 
     console.log(postData);
 
-    const res = await fetch(`http://localhost:3000/api/posts/update`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/posts/update`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      }
+    );
 
     if (res.status === 200) {
       const data = await res.json();

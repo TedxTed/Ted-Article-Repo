@@ -12,6 +12,7 @@ import {
   UpCircleOutlined,
 } from "@ant-design/icons";
 import { FloatButton } from "antd";
+import IntroCard from "@/components/introCard/IntroCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
                     icon={<UpCircleOutlined />}
                     type="primary"
                     style={{ right: 40, width: "45px", height: "45px" }}
+                    tooltip={<IntroCard />}
                   />
                   <Footer />
                 </div>

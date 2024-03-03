@@ -117,3 +117,16 @@ a {
 .ant-pagination-item-link {
   color: var(--textColor) !important;
 }
+
+.ant-tooltip-inner {
+  background-color:transparent;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+}
+.ant-tooltip .ant-tooltip-inner {
+  background-color:transparent;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+}
