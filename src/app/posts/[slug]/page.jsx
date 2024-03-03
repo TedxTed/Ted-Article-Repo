@@ -8,6 +8,7 @@ import { Button, Flex } from "antd";
 import usePostData from "@/hook/usePostData";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import IntroCard from "@/components/introCard/IntroCard";
 
 const SinglePage = ({ params }) => {
   const { slug } = params;
@@ -85,7 +86,9 @@ const SinglePage = ({ params }) => {
             <Comments postSlug={slug} />
           </div>
         </div>
-        <Menu />
+        <div className={styles.intro}>
+          <IntroCard />
+        </div>
       </div>
     </div>
   );

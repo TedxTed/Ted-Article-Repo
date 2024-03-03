@@ -4,14 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
+import { ThunderboltFilled } from "@ant-design/icons";
 
 const Navbar = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.social}>PIKA</div>
+      <div className={styles.social}>
+        <ThunderboltFilled
+          style={{ fontSize: "32px", color: "rgb(255, 234, 0)" }}
+        />
+      </div>
 
       <Link href="/" className={styles.logo}>
-        <div>PIKA RAILS</div>
+        <div className={`${styles.logo} ${styles.word}`}>PIKA RAILS</div>
       </Link>
       <div className={styles.links}>
         <ThemeToggle />

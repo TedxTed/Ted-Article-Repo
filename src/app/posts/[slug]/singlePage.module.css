@@ -59,11 +59,11 @@
 .content {
   display: flex;
   gap: 50px;
+  margin-top: 50px;
 }
 
 .post {
   flex: 5;
-  margin-top: 60px;
 }
 
 .description p {
@@ -94,5 +94,12 @@
 
   .description p{
     font-size: 18px;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .intro {
+    display: none;
   }
 }

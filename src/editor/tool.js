@@ -1,4 +1,3 @@
-// tools.js
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
 import List from "@editorjs/list";
@@ -18,16 +17,60 @@ import SimpleImage from "@editorjs/simple-image";
 import ImageTool from "@editorjs/image";
 import AttachesTool from "@editorjs/attaches";
 
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { app } from "@/utils/firebase";
+const storage = getStorage(app);
+
+const uploadImageToFirebase = (file) => {
+  return new Promise((resolve, reject) => {
+    const name = new Date().getTime() + file.name;
+    const storageRef = ref(storage, name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          resolve({
+            success: 1,
+            file: {
+              url: downloadURL,
+            },
+          });
+        });
+      }
+    );
+  });
+};
+
 export const EDITOR_JS_TOOLS = {
-  // NOTE: Paragraph is default tool. Declare only when you want to change paragraph option.
-  // paragraph: Paragraph,
   embed: Embed,
   table: Table,
   list: List,
   warning: Warning,
   code: Code,
   linkTool: LinkTool,
-  image: Image,
+  image: {
+    class: ImageTool,
+    config: {
+      uploader: {
+        uploadByFile: uploadImageToFirebase,
+      },
+    },
+  },
   raw: Raw,
   header: Header,
   quote: Quote,
@@ -35,7 +78,6 @@ export const EDITOR_JS_TOOLS = {
   checklist: CheckList,
   delimiter: Delimiter,
   inlineCode: InlineCode,
-  image: ImageTool,
   simpleImage: SimpleImage,
   attaches: AttachesTool,
   readOnly: true,

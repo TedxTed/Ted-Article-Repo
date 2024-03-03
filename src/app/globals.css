@@ -104,3 +104,16 @@ a {
 .light .ant-tabs-tab:hover {
   color: var(--textColor);
 }
+
+.ant-pagination-item a {
+  color: var(--textColor) !important;
+}
+
+.ant-pagination-item-active a {
+  border-color: var(--textColor) !important;
+  color: var(--textColor) !important;
+}
+
+.ant-pagination-item-link {
+  color: var(--textColor) !important;
+}

@@ -16,6 +16,7 @@ const Pagination = ({
         total={totalItems}
         pageSize={itemsPerPage}
         showSizeChanger={false}
+        style={{ color: "var(--textColor)" }}
       />
     </div>
   );

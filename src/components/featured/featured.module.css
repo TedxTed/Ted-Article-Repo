@@ -7,6 +7,12 @@
   font-weight: 300;
 }
 
+.title .highlight {
+  font-size: 96px;
+  font-weight: 300;
+  color: rgb(255, 234, 0); /* 你可以使用任何顏色代碼，比如 hex (#ffff00) 或者 rgb (rgb(255, 255, 0)) */
+}
+
 .post {
   margin-top: 60px;
   display: flex;
@@ -47,6 +53,10 @@
   border-radius: 5px;
   width: max-content;
   cursor: pointer;
+}
+
+.pika {
+  color: rgb(255, 234, 0);
 }
 
 @media screen and (max-width: 1280px) {
