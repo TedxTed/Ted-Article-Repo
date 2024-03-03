@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Tabs } from "antd";
+import { Tabs, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import styles from "./cardListByCategory.module.css";
 import useCategoryClass from "@/hook/useCategoryClass";
 import Card from "../card/Card";
@@ -12,9 +13,7 @@ const getData = async (page, cat) => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/posts?page=${page}&cat=${
       cat || ""
     }`,
-    {
-      cache: "no-store",
-    }
+    { cache: "no-store" }
   );
 
   if (!res.ok) {
@@ -30,6 +29,7 @@ const CardListByCategory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (categories && categories.length > 0) {
@@ -40,12 +40,15 @@ const CardListByCategory = () => {
   useEffect(() => {
     if (currentCat) {
       const fetchPosts = async () => {
+        setLoading(true);
         try {
           const { posts, count } = await getData(currentPage, currentCat);
           setPosts(posts);
           setCount(count);
         } catch (error) {
           console.error(error);
+        } finally {
+          setLoading(false);
         }
       };
 
@@ -70,9 +73,20 @@ const CardListByCategory = () => {
     children: (
       <div className={styles.container}>
         <div className={styles.posts}>
-          {posts?.map((item) => (
-            <Card item={item} key={item.id} />
-          ))}
+          {loading ? (
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{
+                    fontSize: 24,
+                  }}
+                  spin
+                />
+              }
+            />
+          ) : (
+            posts?.map((item) => <Card item={item} key={item.id} />)
+          )}
         </div>
         <Pagination
           currentPage={currentPage}
