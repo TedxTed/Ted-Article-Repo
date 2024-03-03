@@ -5,6 +5,13 @@ import { Inter } from "next/font/google";
 import { ThemeContextProvider } from "@/context/ThemeContext";
 import ThemeProvider from "@/providers/ThemeProvider";
 import AuthProvider from "@/providers/AuthProvider";
+import {
+  CommentOutlined,
+  CustomerServiceOutlined,
+  QuestionCircleOutlined,
+  UpCircleOutlined,
+} from "@ant-design/icons";
+import { FloatButton } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +30,11 @@ export default function RootLayout({ children }) {
                 <div className="wrapper">
                   <Navbar />
                   {children}
+                  <FloatButton
+                    icon={<UpCircleOutlined />}
+                    type="primary"
+                    style={{ right: 40, width: "45px", height: "45px" }}
+                  />
                   <Footer />
                 </div>
               </div>
