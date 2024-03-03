@@ -1,8 +1,7 @@
-import React, { useRef, useCallback } from "react";
-import axios from "axios";
+import React, { useRef, useCallback, useState, useEffect } from "react";
 
 // import tools for editor config
-import { EDITOR_JS_TOOLS } from "./tool";
+import { getEditorJsTools } from "./tool";
 
 // create editor instance
 import { createReactEditorJS } from "react-editor-js";
@@ -10,11 +9,19 @@ import { useMounted } from "@/hook/useMounted";
 
 export default function Editor({ data, setData, editMode }) {
   const editorCore = useRef(null);
+  const [tools, setTools] = useState(null);
 
   let ReactEditorJS;
   if (typeof window !== "undefined") {
     ReactEditorJS = createReactEditorJS({ readOnly: true });
   }
+
+  useEffect(() => {
+    getEditorJsTools().then((tools) => {
+      console.log(tools);
+      setTools(tools);
+    });
+  }, []);
 
   const onReady = () => {
     if (typeof window !== "undefined" && !editMode) {
@@ -51,14 +58,16 @@ export default function Editor({ data, setData, editMode }) {
 
   return (
     <div className="editor-container">
-      <ReactEditorJS
-        onReady={onReady}
-        onInitialize={handleInitialize}
-        tools={EDITOR_JS_TOOLS}
-        onChange={handleSave}
-        defaultValue={data}
-        placeholder={"Let`s write an awesome story!"}
-      />
+      {tools && (
+        <ReactEditorJS
+          onReady={onReady}
+          onInitialize={handleInitialize}
+          tools={tools}
+          onChange={handleSave}
+          defaultValue={data}
+          placeholder={"Let`s write an awesome story!"}
+        />
+      )}
     </div>
   );
 }

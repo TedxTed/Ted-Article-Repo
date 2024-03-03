@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import {
   getStorage,
   ref,
@@ -37,50 +36,76 @@ const uploadImageToFirebase = (file) => {
   });
 };
 
-export const getEditorTools = async () => {
-  const Embed = dynamic(() => import("@editorjs/embed"));
-  const Table = dynamic(() => import("@editorjs/table"));
-  const List = dynamic(() => import("@editorjs/list"));
-  const Paragraph = dynamic(() => import("@editorjs/paragraph"));
-  const Warning = dynamic(() => import("@editorjs/warning"));
-  const Code = dynamic(() => import("@editorjs/code"));
-  const LinkTool = dynamic(() => import("@editorjs/link"));
-  const Image = dynamic(() => import("@editorjs/image"));
-  const Raw = dynamic(() => import("@editorjs/raw"));
-  const Header = dynamic(() => import("@editorjs/header"));
-  const Quote = dynamic(() => import("@editorjs/quote"));
-  const Marker = dynamic(() => import("@editorjs/marker"));
-  const CheckList = dynamic(() => import("@editorjs/checklist"));
-  const Delimiter = dynamic(() => import("@editorjs/delimiter"));
-  const InlineCode = dynamic(() => import("@editorjs/inline-code"));
-  const SimpleImage = dynamic(() => import("@editorjs/simple-image"));
-  const ImageTool = dynamic(() => import("@editorjs/image"));
-  const AttachesTool = dynamic(() => import("@editorjs/attaches"));
+export const getEditorJsTools = () => {
+  if (typeof window === "undefined") {
+    return Promise.resolve({});
+  }
 
-  return {
-    embed: Embed,
-    table: Table,
-    list: List,
-    warning: Warning,
-    code: Code,
-    linkTool: LinkTool,
-    image: {
-      class: ImageTool,
-      config: {
-        uploader: {
-          uploadByFile: uploadImageToFirebase,
+  return Promise.all([
+    import("@editorjs/embed"),
+    import("@editorjs/table"),
+    import("@editorjs/list"),
+    import("@editorjs/paragraph"),
+    import("@editorjs/warning"),
+    import("@editorjs/code"),
+    import("@editorjs/link"),
+    import("@editorjs/image"),
+    import("@editorjs/raw"),
+    import("@editorjs/header"),
+    import("@editorjs/quote"),
+    import("@editorjs/marker"),
+    import("@editorjs/checklist"),
+    import("@editorjs/delimiter"),
+    import("@editorjs/inline-code"),
+    import("@editorjs/simple-image"),
+    import("@editorjs/attaches"),
+  ]).then(
+    ([
+      Embed,
+      Table,
+      List,
+      Paragraph,
+      Warning,
+      Code,
+      LinkTool,
+      ImageTool,
+      Raw,
+      Header,
+      Quote,
+      Marker,
+      CheckList,
+      Delimiter,
+      InlineCode,
+      SimpleImage,
+      AttachesTool,
+    ]) => {
+      return {
+        embed: Embed.default,
+        table: Table.default,
+        list: List.default,
+        paragraph: Paragraph.default,
+        warning: Warning.default,
+        code: Code.default,
+        linkTool: LinkTool.default,
+        image: {
+          class: ImageTool.default,
+          config: {
+            uploader: {
+              uploadByFile: uploadImageToFirebase,
+            },
+          },
         },
-      },
-    },
-    raw: Raw,
-    header: Header,
-    quote: Quote,
-    marker: Marker,
-    checklist: CheckList,
-    delimiter: Delimiter,
-    inlineCode: InlineCode,
-    simpleImage: SimpleImage,
-    attaches: AttachesTool,
-    readOnly: true,
-  };
+        raw: Raw.default,
+        header: Header.default,
+        quote: Quote.default,
+        marker: Marker.default,
+        checklist: CheckList.default,
+        delimiter: Delimiter.default,
+        inlineCode: InlineCode.default,
+        simpleImage: SimpleImage.default,
+        attaches: AttachesTool.default,
+        // Add other tools and their configurations...
+      };
+    }
+  );
 };
