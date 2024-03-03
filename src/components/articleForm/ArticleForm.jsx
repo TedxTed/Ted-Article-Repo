@@ -1,9 +1,8 @@
 import React from "react";
 import { Form, Input, Select, Button, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import CreateContentEditorBlock from "@/components/editorBlock/CreateContentEditorBlock";
 import { uuid } from "uuidv4";
-import PostEditorBlock from "../editorBlock/editorBlock";
+import PostEditorBlock from "@/components/editorBlock/PostEditorBlock";
 
 const { TextArea } = Input;
 

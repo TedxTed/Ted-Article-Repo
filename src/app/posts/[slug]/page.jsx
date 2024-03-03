@@ -1,15 +1,13 @@
 "use client";
-import Menu from "@/components/Menu/Menu";
 import styles from "./singlePage.module.css";
 import Image from "next/image";
 import Comments from "@/components/comments/Comments";
-import PostEditorBlock from "@/components/editorBlock/editorBlock";
+import PostEditorBlock from "@/components/editorBlock/PostEditorBlock";
 import { Button, Flex } from "antd";
 import usePostData from "@/hook/usePostData";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import IntroCard from "@/components/introCard/IntroCard";
-import useAuth from "@/hook/useAuth";
 
 const SinglePage = ({ params }) => {
   const { slug } = params;
@@ -19,9 +17,6 @@ const SinglePage = ({ params }) => {
   console.log(session.data?.user);
   console.log(postDataFromServer?.content);
   const router = useRouter();
-  const { data: auth } = useAuth();
-
-  console.log(auth);
 
   const handleEdit = () => {
     console.log("Edit Post Clicked");

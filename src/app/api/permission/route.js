@@ -16,8 +16,6 @@ export const GET = async () => {
       where: { email: session.user.email, name: session.user.name },
     });
 
-    console.log({ user });
-
     const permission = user?.permission;
 
     if (!permission) {

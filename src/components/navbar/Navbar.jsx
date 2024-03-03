@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./navbar.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import AuthLinks from "../authLinks/AuthLinks";
 import ThemeToggle from "../themeToggle/ThemeToggle";
