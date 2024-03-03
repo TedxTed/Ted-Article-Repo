@@ -24,7 +24,6 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { storage } from "@/utils/firebase";
-const storage = getStorage(app);
 
 const uploadImageToFirebase = (file) => {
   return new Promise((resolve, reject) => {
