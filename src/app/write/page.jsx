@@ -14,10 +14,15 @@ import { uuid } from "uuidv4";
 import styles from "./writePage.module.css";
 import { app } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
-import ArticleForm from "@/components/articleForm/ArticleForm";
-import useAuth from "@/hook/useAuth";
+import dynamic from "next/dynamic";
 
 const WritePage = () => {
+  const ArticleForm = dynamic(
+    () => import("@/components/articleForm/ArticleForm"),
+    {
+      loading: () => <p>Loading...</p>,
+    }
+  );
   const { status } = useSession();
   const router = useRouter();
   const [file, setFile] = useState(null);

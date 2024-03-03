@@ -54,10 +54,11 @@ const IntroCard = () => {
             open={visible}
             placement="bottom"
             onOpenChange={handleVisibleChange}
+            key="Mail"
           >
             <MailOutlined key="setting" />
           </Popover>,
-          <a href="https://github.com/TedxTed">
+          <a href="https://github.com/TedxTed" key="Github">
             <GithubFilled />
           </a>,
         ]}

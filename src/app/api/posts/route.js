@@ -52,9 +52,10 @@ export const POST = async (req) => {
 
     const permission = user?.permission;
 
-    if (!permission || permission !== "owner" || permission !== "admin") {
+    if (permission !== "owner" && permission !== "admin") {
       return new NextResponse(
-        JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
+        JSON.stringify({ message: "Not Authenticated!" }),
+        { status: 401 }
       );
     }
 

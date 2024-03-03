@@ -14,10 +14,16 @@ import { uuid } from "uuidv4";
 import styles from "./updatePage.module.css";
 import { app } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
-import ArticleForm from "@/components/articleForm/ArticleForm";
 import usePostData from "@/hook/usePostData";
+import dynamic from "next/dynamic";
 
 const UpdatePost = ({ params }) => {
+  const ArticleForm = dynamic(
+    () => import("@/components/articleForm/ArticleForm"),
+    {
+      loading: () => <p>Loading...</p>,
+    }
+  );
   const { slug } = params;
   console.log(slug);
   const { data: postDataFromServer } = usePostData({ slug });
