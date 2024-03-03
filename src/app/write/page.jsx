@@ -12,7 +12,7 @@ import {
 import { message } from "antd";
 import { uuid } from "uuidv4";
 import styles from "./writePage.module.css";
-import { app } from "@/utils/firebase";
+import { storage } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import dynamic from "next/dynamic";
 
@@ -37,7 +37,6 @@ const WritePage = () => {
 
   useEffect(() => {
     if (file) {
-      const storage = getStorage(app);
       const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, name);
       const uploadTask = uploadBytesResumable(storageRef, file);

@@ -12,7 +12,7 @@ import {
 import { message } from "antd";
 import { uuid } from "uuidv4";
 import styles from "./updatePage.module.css";
-import { app } from "@/utils/firebase";
+import { storage } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import usePostData from "@/hook/usePostData";
 import dynamic from "next/dynamic";
@@ -44,7 +44,6 @@ const UpdatePost = ({ params }) => {
 
   useEffect(() => {
     if (file) {
-      const storage = getStorage(app);
       const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, name);
       const uploadTask = uploadBytesResumable(storageRef, file);

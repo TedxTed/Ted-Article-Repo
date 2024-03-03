@@ -23,7 +23,7 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import { app } from "@/utils/firebase";
+import { storage } from "@/utils/firebase";
 const storage = getStorage(app);
 
 const uploadImageToFirebase = (file) => {
