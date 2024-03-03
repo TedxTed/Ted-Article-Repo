@@ -11,15 +11,11 @@ import IntroCard from "@/components/introCard/IntroCard";
 
 const SinglePage = ({ params }) => {
   const { slug } = params;
-  console.log(slug);
   const { data: postDataFromServer } = usePostData({ slug });
   const session = useSession();
-  console.log(session.data?.user);
-  console.log(postDataFromServer?.content);
   const router = useRouter();
 
   const handleEdit = () => {
-    console.log("Edit Post Clicked");
     if (postDataFromServer) {
       router.push(`/write/${postDataFromServer.slug}`);
     }

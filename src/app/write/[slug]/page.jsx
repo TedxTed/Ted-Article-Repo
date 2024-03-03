@@ -16,19 +16,11 @@ import { storage } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import usePostData from "@/hook/usePostData";
 import dynamic from "next/dynamic";
+import ArticleForm from "@/components/articleForm/ArticleForm";
 
 const UpdatePost = ({ params }) => {
-  const ArticleForm = dynamic(
-    () => import("@/components/articleForm/ArticleForm"),
-    {
-      loading: () => <p>Loading...</p>,
-    }
-  );
   const { slug } = params;
-  console.log(slug);
   const { data: postDataFromServer } = usePostData({ slug });
-
-  console.log({ postDataFromServer });
 
   const { status } = useSession();
   const router = useRouter();
@@ -94,8 +86,6 @@ const UpdatePost = ({ params }) => {
       img: media,
       content: editorContent,
     };
-
-    console.log(postData);
 
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/posts/update`,

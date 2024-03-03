@@ -5,10 +5,6 @@ import { NextResponse } from "next/server";
 export const GET = async (req, { params }) => {
   const { slug } = params;
 
-  console.log("cSACSAS");
-
-  console.log({ slug });
-
   try {
     const post = await prisma.post.update({
       where: { slug },

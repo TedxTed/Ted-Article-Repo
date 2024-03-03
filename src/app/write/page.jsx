@@ -15,14 +15,9 @@ import styles from "./writePage.module.css";
 import { storage } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import dynamic from "next/dynamic";
+import ArticleForm from "@/components/articleForm/ArticleForm";
 
 const WritePage = () => {
-  const ArticleForm = dynamic(
-    () => import("@/components/articleForm/ArticleForm"),
-    {
-      loading: () => <p>Loading...</p>,
-    }
-  );
   const { status } = useSession();
   const router = useRouter();
   const [file, setFile] = useState(null);

@@ -28,8 +28,6 @@ const Comments = ({ postSlug }) => {
     fetcher
   );
 
-  console.log({ data });
-
   const [desc, setDesc] = useState("");
 
   const handleSubmit = async () => {

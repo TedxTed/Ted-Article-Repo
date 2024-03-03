@@ -8,7 +8,6 @@ import { EDITOR_JS_TOOLS } from "./tool";
 import { createReactEditorJS } from "react-editor-js";
 
 export default function Editor({ data, setData, editMode }) {
-  console.log({ data });
   const editorCore = useRef(null);
   const ReactEditorJS = createReactEditorJS({ readOnly: true });
 

@@ -5,7 +5,6 @@ import Editor from "@/editor/editor";
 import EditorTextParser from "../editorTextParser/EditorTextParser";
 
 export default function PostEditorBlock({ editMode, data, setData }) {
-  console.log({ editMode, data, setData });
   const [initData, setInitData] = useState(data);
   return (
     <div className={styles.container}>

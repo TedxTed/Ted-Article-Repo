@@ -3,6 +3,7 @@ import { Form, Input, Select, Button, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { uuid } from "uuidv4";
 import PostEditorBlock from "@/components/editorBlock/PostEditorBlock";
+import { useMounted } from "@/hook/useMounted";
 
 const { TextArea } = Input;
 
@@ -13,7 +14,9 @@ const ArticleForm = ({
   uploadProps,
   setEditorContent,
 }) => {
-  console.log("initialValues.editorContent", initialValues.content);
+  const mounted = useMounted();
+  if (!mounted) return null;
+
   return (
     <Form initialValues={initialValues} onFinish={onSubmit}>
       <Form.Item
