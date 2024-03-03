@@ -15,6 +15,7 @@ import styles from "./writePage.module.css";
 import { app } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
 import ArticleForm from "@/components/articleForm/ArticleForm";
+import useAuth from "@/hook/useAuth";
 
 const WritePage = () => {
   const { status } = useSession();

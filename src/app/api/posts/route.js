@@ -16,6 +16,9 @@ export const GET = async (req) => {
     where: {
       ...(cat && { catSlug: cat }),
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   };
 
   try {
@@ -43,6 +46,18 @@ export const POST = async (req) => {
   }
 
   try {
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email, name: session.user.name },
+    });
+
+    const permission = user?.permission;
+
+    if (!permission || permission !== "owner" || permission !== "admin") {
+      return new NextResponse(
+        JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
+      );
+    }
+
     const body = await req.json();
     const post = await prisma.post.create({
       data: { ...body, userEmail: session.user.email },

@@ -1,7 +1,8 @@
 import { getAuthSession } from "@/utils/auth";
+import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
 
-export const POST = async (req) => {
+export const GET = async () => {
   const session = await getAuthSession();
 
   if (!session) {
@@ -15,32 +16,19 @@ export const POST = async (req) => {
       where: { email: session.user.email, name: session.user.name },
     });
 
+    console.log({ user });
+
     const permission = user?.permission;
 
-    if (!permission || permission !== "owner" || permission !== "admin") {
+    if (!permission) {
       return new NextResponse(
         JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
       );
     }
 
-    const body = await req.json();
-    const postId = body.id;
-    const { id, ...dataNeedToUpdata } = body;
-
-    if (!postId) {
-      return new NextResponse(
-        JSON.stringify({ message: "Post ID is required!" }, { status: 400 })
-      );
-    }
-
-    const post = await prisma.post.update({
-      where: { id: postId },
-      data: { ...dataNeedToUpdata, userEmail: session.user.email },
-    });
-
-    return new NextResponse(JSON.stringify(post, { status: 200 }));
+    return new NextResponse(JSON.stringify(permission, { status: 200 }));
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return new NextResponse(
       JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
     );

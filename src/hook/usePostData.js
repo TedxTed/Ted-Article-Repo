@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 const usePostData = ({ slug }) => {
-  console.log({ aa: slug });
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
