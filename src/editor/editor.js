@@ -6,13 +6,18 @@ import { EDITOR_JS_TOOLS } from "./tool";
 
 // create editor instance
 import { createReactEditorJS } from "react-editor-js";
+import { useMounted } from "@/hook/useMounted";
 
 export default function Editor({ data, setData, editMode }) {
   const editorCore = useRef(null);
-  const ReactEditorJS = createReactEditorJS({ readOnly: true });
+
+  let ReactEditorJS;
+  if (typeof window !== "undefined") {
+    ReactEditorJS = createReactEditorJS({ readOnly: true });
+  }
 
   const onReady = () => {
-    if (!editMode) {
+    if (typeof window !== "undefined" && !editMode) {
       let editable_elements = document.querySelectorAll(
         "[contenteditable=true]"
       );
@@ -40,6 +45,9 @@ export default function Editor({ data, setData, editMode }) {
       setData(savedData);
     }
   }, [setData]);
+
+  const mounted = useMounted();
+  if (!mounted || !ReactEditorJS) return null;
 
   return (
     <div className="editor-container">

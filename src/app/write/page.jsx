@@ -14,7 +14,6 @@ import { uuid } from "uuidv4";
 import styles from "./writePage.module.css";
 import { storage } from "@/utils/firebase";
 import useCategoryClass from "@/hook/useCategoryClass";
-import dynamic from "next/dynamic";
 import ArticleForm from "@/components/articleForm/ArticleForm";
 
 const WritePage = () => {

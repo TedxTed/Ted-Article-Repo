@@ -7,13 +7,13 @@ import { useMounted } from "@/hook/useMounted";
 
 const { TextArea } = Input;
 
-const ArticleForm = ({
+const ArticleForm = React.memo(function ArticleForm({
   categories,
   initialValues,
   onSubmit,
   uploadProps,
   setEditorContent,
-}) => {
+}) {
   const mounted = useMounted();
   if (!mounted) return null;
 
@@ -76,6 +76,6 @@ const ArticleForm = ({
       </Form.Item>
     </Form>
   );
-};
+});
 
 export default ArticleForm;
