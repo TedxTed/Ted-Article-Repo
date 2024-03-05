@@ -58,16 +58,14 @@ export const POST = async (req) => {
   } catch (err) {
     console.log(err);
     return new NextResponse(
-      JSON.stringify(
-        {
-          userReturn,
-          permissionReturn,
-          checkReturn,
-          bodyReturn,
-          postReturn,
-        },
-        { status: 500 }
-      )
+      JSON.stringify({
+        userReturn,
+        permissionReturn,
+        checkReturn,
+        bodyReturn,
+        postReturn,
+      }),
+      { status: 500 }
     );
   }
 };
