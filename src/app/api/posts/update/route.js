@@ -43,7 +43,7 @@ export const POST = async (req) => {
   } catch (err) {
     console.log(err);
     return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
+      JSON.stringify({ message: JSON.stringify(err) }, { status: 500 })
     );
   }
 };
