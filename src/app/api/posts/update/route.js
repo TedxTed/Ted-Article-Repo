@@ -10,12 +10,24 @@ export const POST = async (req) => {
     );
   }
 
+  let userReturn;
+  let permissionReturn;
+  let checkReturn;
+  let bodyReturn;
+  let postReturn;
+
   try {
     const user = await prisma.user.findUnique({
       where: { email: session.user.email, name: session.user.name },
     });
 
+    console.log(user);
+    userReturn = user;
+
     const permission = user?.permission;
+
+    permissionReturn = permission;
+    checkReturn = permission !== "owner" && permission !== "admin";
 
     if (permission !== "owner" && permission !== "admin") {
       return new NextResponse(
@@ -25,6 +37,7 @@ export const POST = async (req) => {
     }
 
     const body = await req.json();
+    bodyReturn = body;
     const postId = body.id;
     const { id, ...dataNeedToUpdata } = body;
 
@@ -39,11 +52,22 @@ export const POST = async (req) => {
       data: { ...dataNeedToUpdata, userEmail: session.user.email },
     });
 
+    postReturn = post;
+
     return new NextResponse(JSON.stringify(post, { status: 200 }));
   } catch (err) {
     console.log(err);
     return new NextResponse(
-      JSON.stringify({ message: JSON.stringify(err) }, { status: 500 })
+      JSON.stringify(
+        {
+          userReturn,
+          permissionReturn,
+          checkReturn,
+          bodyReturn,
+          postReturn,
+        },
+        { status: 500 }
+      )
     );
   }
 };
